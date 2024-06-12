@@ -5,4 +5,4 @@ class CustomUser(AbstractUser):
     sign_in_count = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.username
+        return self.username 
