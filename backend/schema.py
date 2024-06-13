@@ -1,5 +1,6 @@
 import graphene
 from graphene_django import DjangoObjectType
+import graphql_jwt
 from graphql_jwt.decorators import login_required
 from users.models import CustomUser
 from django.db.models import Sum
@@ -41,7 +42,9 @@ class Register(graphene.Mutation):
         user.sign_in_count += 1
         user.save()
 
+        # Obtain JWT token for the newly registered user
         token = get_token(user)
+        
         return Register(user=user, token=token)
 
 class Login(graphene.Mutation):
@@ -61,7 +64,9 @@ class Login(graphene.Mutation):
         user.sign_in_count += 1
         user.save()
 
+        # Obtain JWT token for the authenticated user
         token = get_token(user)
+        
         return Login(user=user, token=token)
 
 class SignOut(graphene.Mutation):
