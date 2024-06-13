@@ -1,11 +1,12 @@
 import graphene
 from graphene_django import DjangoObjectType
-import graphql_jwt
 from graphql_jwt.decorators import login_required
+from graphql_jwt.shortcuts import get_token, create_refresh_token
+from django.contrib.auth import get_user_model
 from users.models import CustomUser
 from django.db.models import Sum
-from graphql_jwt.shortcuts import get_token
 from django.http import HttpResponse
+from graphql_jwt import ObtainJSONWebToken, Refresh
 
 class UserType(DjangoObjectType):
     class Meta:
@@ -28,6 +29,7 @@ class Query(graphene.ObjectType):
 class Register(graphene.Mutation):
     user = graphene.Field(UserType)
     token = graphene.String()
+    refresh_token = graphene.String()
 
     class Arguments:
         username = graphene.String(required=True)
@@ -42,14 +44,16 @@ class Register(graphene.Mutation):
         user.sign_in_count += 1
         user.save()
 
-        # Obtain JWT token for the newly registered user
+        # Obtain JWT token and refresh token for the newly registered user
         token = get_token(user)
+        refresh_token = create_refresh_token(user)
         
-        return Register(user=user, token=token)
+        return Register(user=user, token=token, refresh_token=refresh_token)
 
 class Login(graphene.Mutation):
     user = graphene.Field(UserType)
     token = graphene.String()
+    refresh_token = graphene.String()
 
     class Arguments:
         username = graphene.String(required=True)
@@ -60,14 +64,13 @@ class Login(graphene.Mutation):
         if not user.check_password(password):
             raise Exception('Invalid credentials')
         
-        # Increment sign-in count
         user.sign_in_count += 1
         user.save()
 
-        # Obtain JWT token for the authenticated user
         token = get_token(user)
+        refresh_token = create_refresh_token(user)
         
-        return Login(user=user, token=token)
+        return Login(user=user, token=token, refresh_token=refresh_token)
 
 class SignOut(graphene.Mutation):
     success = graphene.Boolean()
@@ -76,11 +79,14 @@ class SignOut(graphene.Mutation):
     def mutate(self, info):
         response = HttpResponse()
         response.delete_cookie('JWT')
+        # Optionally, you can also delete the refresh token here if needed
         return SignOut(success=True)
 
 class Mutation(graphene.ObjectType):
     register = Register.Field()
     login = Login.Field()
     sign_out = SignOut.Field()
+    token_auth = ObtainJSONWebToken.Field()
+    refresh_token = Refresh.Field()
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
