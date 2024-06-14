@@ -94,7 +94,7 @@ class ChangePassword(graphene.Mutation):
         token = get_token(user)
         refresh_token = create_refresh_token(user)
 
-        return ChangePassword(success=True,token=token, refresh_token=refresh_token)
+        return ChangePassword(user=user, success=True,token=token, refresh_token=refresh_token)
 class SignOut(graphene.Mutation):
     success = graphene.Boolean()
 
