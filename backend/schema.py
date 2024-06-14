@@ -81,10 +81,8 @@ class ChangePassword(graphene.Mutation):
         username = graphene.String(required=True)
         password = graphene.String(required=True)
         new_password = graphene.String(required=True)  
-
-
+        
     def mutate(self, info, username, password, new_password):
-        print(12)
         user = CustomUser.objects.get(username=username)
         if not user.check_password(password):
             raise Exception('Invalid credentials')
