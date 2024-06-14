@@ -30,7 +30,7 @@ class Register(graphene.Mutation):
     user = graphene.Field(UserType)
     token = graphene.String()
     refresh_token = graphene.String()
-
+   
     class Arguments:
         username = graphene.String(required=True)
         password = graphene.String(required=True)
@@ -72,6 +72,29 @@ class Login(graphene.Mutation):
         
         return Login(user=user, token=token, refresh_token=refresh_token)
 
+class ChangePassword(graphene.Mutation):
+    user = graphene.Field(UserType)
+    success = graphene.Boolean()
+    token = graphene.String()
+    refresh_token = graphene.String()
+    class Arguments:
+        username = graphene.String(required=True)
+        password = graphene.String(required=True)
+        new_password = graphene.String(required=True)  
+
+
+    def mutate(self, info, username, password, new_password):
+        print(12)
+        user = CustomUser.objects.get(username=username)
+        if not user.check_password(password):
+            raise Exception('Invalid credentials')
+
+        user.set_password(new_password)
+        user.save()
+        token = get_token(user)
+        refresh_token = create_refresh_token(user)
+
+        return ChangePassword(success=True,token=token, refresh_token=refresh_token)
 class SignOut(graphene.Mutation):
     success = graphene.Boolean()
 
@@ -86,6 +109,7 @@ class Mutation(graphene.ObjectType):
     register = Register.Field()
     login = Login.Field()
     sign_out = SignOut.Field()
+    change_password = ChangePassword.Field()
     token_auth = ObtainJSONWebToken.Field()
     refresh_token = Refresh.Field()
 
