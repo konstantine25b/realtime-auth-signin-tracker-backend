@@ -36,6 +36,9 @@ class Register(graphene.Mutation):
         password = graphene.String(required=True)
 
     def mutate(self, info, username, password):
+        if len(password) < 8:
+            raise Exception('Password must be at least 8 characters long')
+
         user = CustomUser.objects.create(username=username)
         user.set_password(password)
         user.save()
@@ -83,6 +86,9 @@ class ChangePassword(graphene.Mutation):
         new_password = graphene.String(required=True)  
         
     def mutate(self, info, username, password, new_password):
+        if len(new_password) < 8:
+            raise Exception('Password must be at least 8 characters long')
+
         user = CustomUser.objects.get(username=username)
         if not user.check_password(password):
             raise Exception('Invalid credentials')
