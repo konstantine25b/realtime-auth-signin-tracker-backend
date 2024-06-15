@@ -15,6 +15,7 @@ class UserType(DjangoObjectType):
 class Query(graphene.ObjectType):
     me = graphene.Field(UserType)
     global_sign_in_count = graphene.Int()
+    winner = graphene.Field(UserType)
 
     @login_required
     def resolve_me(self, info):
@@ -25,6 +26,10 @@ class Query(graphene.ObjectType):
 
     def resolve_global_sign_in_count(self, info):
         return CustomUser.objects.aggregate(global_count=Sum('sign_in_count'))['global_count']
+    
+    def resolve_winner(self, info):
+        winner = CustomUser.objects.filter(winner=True).first()
+        return winner
 
 class Register(graphene.Mutation):
     user = graphene.Field(UserType)
@@ -46,6 +51,11 @@ class Register(graphene.Mutation):
         # Increment sign-in count
         user.sign_in_count += 1
         user.save()
+        
+        global_count = CustomUser.objects.aggregate(global_count=Sum('sign_in_count'))['global_count']
+        if global_count == 215:
+            user.winner = True
+            user.save()
 
         # Obtain JWT token and refresh token for the newly registered user
         token = get_token(user)
@@ -69,6 +79,11 @@ class Login(graphene.Mutation):
         
         user.sign_in_count += 1
         user.save()
+        
+        global_count = CustomUser.objects.aggregate(global_count=Sum('sign_in_count'))['global_count']
+        if global_count == 215:
+            user.winner = True
+            user.save()
 
         token = get_token(user)
         refresh_token = create_refresh_token(user)
