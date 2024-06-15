@@ -53,7 +53,7 @@ class Register(graphene.Mutation):
         user.save()
         
         global_count = CustomUser.objects.aggregate(global_count=Sum('sign_in_count'))['global_count']
-        if global_count == 215:
+        if global_count == 5:
             user.winner = True
             user.save()
 
@@ -81,7 +81,7 @@ class Login(graphene.Mutation):
         user.save()
         
         global_count = CustomUser.objects.aggregate(global_count=Sum('sign_in_count'))['global_count']
-        if global_count == 215:
+        if global_count == 5:
             user.winner = True
             user.save()
 
