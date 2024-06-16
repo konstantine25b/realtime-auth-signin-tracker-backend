@@ -65,7 +65,8 @@ This project is a full-stack web application utilizing Django for the backend an
 ### Create Superuser
 
   1. To create a superuser for administrative tasks:
-    ```sh
+     
+     ```sh
      python manage.py createsuperuser
 
 Follow the prompts to set a username, email (optional), and password for the superuser.
