@@ -38,7 +38,7 @@ This project is a full-stack web application utilizing Django for the backend an
 2. **Create a Virtual Environment and Activate It
 
    ```sh
-   python -m venv venv
+   python3 -m venv venv
    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 
 3. **Install Dependencies
@@ -59,4 +59,103 @@ This project is a full-stack web application utilizing Django for the backend an
 6. **Run the Development Server
    ```sh
    python manage.py runserver
+
+# Testing GraphQL Endpoints
+
+To test the GraphQL endpoints defined in your schema, you can use various methods to interact with your GraphQL API.
+
+## Using GraphQL Playground or GraphiQL
+
+1. **Accessing GraphQL Playground/GraphiQL**
+
+   - Start your Django development server:
+     ```bash
+     python manage.py runserver
+     ```
+   - Navigate to `http://localhost:8000/graphql` in your web browser to open GraphQL Playground or GraphiQL.
+     
+2. **Testing Queries and Mutations**
+
+   - **Register Mutation:**
+     ```graphql
+     mutation {
+       register(username: "your_username", password: "your_password") {
+         user {
+           id
+           username
+           sign_in_count
+         }
+         token
+         refresh_token
+       }
+     }
+     ```
+
+   - **Login Mutation:**
+     ```graphql
+     mutation {
+       login(username: "your_username", password: "your_password") {
+         user {
+           id
+           username
+           sign_in_count
+         }
+         token
+         refresh_token
+       }
+     }
+     ```
+
+   - **Change Password Mutation:**
+     ```graphql
+     mutation {
+       changePassword(username: "your_username", password: "your_password", new_password: "new_password") {
+         user {
+           id
+           username
+         }
+         success
+         token
+         refresh_token
+       }
+     }
+     ```
+
+   - **Sign Out Mutation:**
+     ```graphql
+     mutation {
+       signOut {
+         success
+       }
+     }
+     ```
+
+   - **Querying Current User (Me):**
+     ```graphql
+     query {
+       me {
+         id
+         username
+         sign_in_count
+       }
+     }
+     ```
+
+   - **Querying Global Sign-in Count:**
+     ```graphql
+     query {
+       global_sign_in_count
+     }
+     ```
+
+   - **Querying Winner:**
+     ```graphql
+     query {
+       winner {
+         id
+         username
+       }
+     }
+     ```
+
 
