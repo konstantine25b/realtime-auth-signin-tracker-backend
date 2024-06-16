@@ -7,6 +7,11 @@ from users.models import CustomUser
 from django.db.models import Sum
 from django.http import HttpResponse
 from graphql_jwt import ObtainJSONWebToken, Refresh
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+from users.consumers import notify_global_sign_in_count
+from users.consumers import notify_winner
+
 
 class UserType(DjangoObjectType):
     class Meta:
@@ -56,6 +61,9 @@ class Register(graphene.Mutation):
         if global_count == 5:
             user.winner = True
             user.save()
+            notify_winner()  # Notify winner
+
+        notify_global_sign_in_count(global_count)  # Notify global sign-in count
 
         # Obtain JWT token and refresh token for the newly registered user
         token = get_token(user)
@@ -84,6 +92,11 @@ class Login(graphene.Mutation):
         if global_count == 5:
             user.winner = True
             user.save()
+            notify_winner()
+            
+
+        notify_global_sign_in_count(global_count)  # Notify global sign-in count
+
 
         token = get_token(user)
         refresh_token = create_refresh_token(user)

@@ -1,6 +1,18 @@
 import json
+from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+from users.models import CustomUser
 from channels.generic.websocket import WebsocketConsumer
+
+def send_notification(message):
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        'notifications',
+        {
+            'type': 'send_notification',
+            'message': message
+        }
+    )
 
 class NotiConsumer(WebsocketConsumer):
     def connect(self):
@@ -36,6 +48,12 @@ class NotiConsumer(WebsocketConsumer):
             }
         )
 
+    def send_notification(self, message):
+        self.send(text_data=json.dumps({
+            'message': message
+        }))
+        print(f"Sent notification: {message}")
+
     def chat_message(self, event):
         message = event['message']
         # Send message to WebSocket
@@ -43,3 +61,14 @@ class NotiConsumer(WebsocketConsumer):
             'message': message
         }))
         print(f"Sent response: {message}")
+
+def notify_winner():
+    winner = CustomUser.objects.filter(winner=True).first()
+    if winner:
+        message = f"Global Sign-In Count Reached 5! Winner: {winner.username}"
+        send_notification(message)
+
+def notify_global_sign_in_count(count):
+    message = f"{count}"
+    print(message)
+    send_notification(message)
