@@ -61,9 +61,6 @@ This project is a full-stack web application utilizing Django for the backend an
    python manage.py runserver
 
 
-##Contributing
-
-###Contributions are welcome! Please open an issue or submit a pull request for any changes.
 
    
    
