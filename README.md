@@ -65,9 +65,8 @@ This project is a full-stack web application utilizing Django for the backend an
 ### Create Superuser
 
   1. To create a superuser for administrative tasks:
-
     ```sh
-    python manage.py createsuperuser
+     python manage.py createsuperuser
 
 Follow the prompts to set a username, email (optional), and password for the superuser.
 
@@ -76,6 +75,7 @@ Follow the prompts to set a username, email (optional), and password for the sup
 ** Navigate to the Django admin interface in your web browser:
 
    http://localhost:8000/admin/
+   
 ** Log in using the superuser credentials created earlier.
 
 # Testing GraphQL Endpoints
