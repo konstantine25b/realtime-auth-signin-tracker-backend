@@ -62,7 +62,7 @@ This project is a full-stack web application utilizing Django for the backend an
 
 
 ###Contributing
-####Contributions are welcome! Please open an issue or submit a pull request for any changes.
+###Contributions are welcome! Please open an issue or submit a pull request for any changes.
 
    
    
