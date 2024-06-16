@@ -46,9 +46,9 @@ This project is a full-stack web application utilizing Django for the backend an
    ```sh
    pip install -r requirements.txt
 
-4. Run Redis Server Using Docker
+4. Run Redis Server Using Docker 
    
-   Start a Redis container with the following command in different (separate) terminal:
+   Open Docker Desktop and then start a Redis container with the following command in different (separate) terminal:
    ```sh
    docker run --rm -p 6379:6379 redis:7
    
