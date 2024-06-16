@@ -75,7 +75,7 @@ Follow the prompts to set a username, email (optional), and password for the sup
 
 ** Navigate to the Django admin interface in your web browser:
 
-   http://localhost:8000/admin/
+   http://127.0.0.1:8000/admin/
    
 ** Log in using the superuser credentials created earlier.
 
