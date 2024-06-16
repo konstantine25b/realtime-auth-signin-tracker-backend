@@ -74,7 +74,7 @@ To test the GraphQL endpoints defined in your schema, you can use various method
      ```
    - Navigate to `http://localhost:8000/graphql` in your web browser to open GraphQL Playground or GraphiQL.
      
-2. **Testing Queries and Mutations**
+2. **Testing Some of the Queries and Mutations**
 
    - **Register Mutation:**
      ```graphql
@@ -83,10 +83,9 @@ To test the GraphQL endpoints defined in your schema, you can use various method
          user {
            id
            username
-           sign_in_count
          }
          token
-         refresh_token
+         refreshToken
        }
      }
      ```
@@ -98,10 +97,10 @@ To test the GraphQL endpoints defined in your schema, you can use various method
          user {
            id
            username
-           sign_in_count
+           signInCount
          }
          token
-         refresh_token
+         refreshToken
        }
      }
      ```
@@ -109,7 +108,7 @@ To test the GraphQL endpoints defined in your schema, you can use various method
    - **Change Password Mutation:**
      ```graphql
      mutation {
-       changePassword(username: "your_username", password: "your_password", new_password: "new_password") {
+       changePassword(username: "your_username", password: "your_password", newPassword: "new_password") {
          user {
            id
            username
@@ -121,41 +120,10 @@ To test the GraphQL endpoints defined in your schema, you can use various method
      }
      ```
 
-   - **Sign Out Mutation:**
-     ```graphql
-     mutation {
-       signOut {
-         success
-       }
-     }
-     ```
-
-   - **Querying Current User (Me):**
-     ```graphql
-     query {
-       me {
-         id
-         username
-         sign_in_count
-       }
-     }
-     ```
-
    - **Querying Global Sign-in Count:**
      ```graphql
      query {
-       global_sign_in_count
+       globalSignInCount
      }
      ```
-
-   - **Querying Winner:**
-     ```graphql
-     query {
-       winner {
-         id
-         username
-       }
-     }
-     ```
-
 
