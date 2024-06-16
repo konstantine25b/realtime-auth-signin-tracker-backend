@@ -60,12 +60,3 @@ This project is a full-stack web application utilizing Django for the backend an
    ```sh
    python manage.py runserver
 
-
-
-   
-   
-
-
-   
-   
-
