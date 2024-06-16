@@ -29,19 +29,19 @@ This project is a full-stack web application utilizing Django for the backend an
 
 ### Installation
 
-1. **Clone the Repository**
+1. Clone the Repository**
 
    ```sh
    git clone https://github.com/konstantine25b/realtime-auth-signin-tracker-backend
    cd realtime-auth-signin-tracker-backend
    
-2. **Create a Virtual Environment and Activate It
+2. Create a Virtual Environment and Activate It
 
    ```sh
    python3 -m venv venv
    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 
-3. **Install Dependencies
+3. Install Dependencies
 
    ```sh
    pip install -r requirements.txt
@@ -52,11 +52,11 @@ This project is a full-stack web application utilizing Django for the backend an
    ```sh
    docker run --rm -p 6379:6379 redis:7
    
-5. **Apply Migrations
+5. Apply Migrations
    ```sh
    python manage.py migrate
 
-6. **Run the Development Server
+6. Run the Development Server
    ```sh
    python manage.py runserver
 
