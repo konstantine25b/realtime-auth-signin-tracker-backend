@@ -60,6 +60,24 @@ This project is a full-stack web application utilizing Django for the backend an
    ```sh
    python manage.py runserver
 
+## Managing Superuser Access
+
+### Create Superuser
+
+  1. To create a superuser for administrative tasks:
+
+    ```sh
+    python manage.py createsuperuser
+
+Follow the prompts to set a username, email (optional), and password for the superuser.
+
+## Access Django Admin
+
+** Navigate to the Django admin interface in your web browser:
+
+   http://localhost:8000/admin/
+** Log in using the superuser credentials created earlier.
+
 # Testing GraphQL Endpoints
 
 To test the GraphQL endpoints defined in your schema, you can use various methods to interact with your GraphQL API.
